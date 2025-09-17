@@ -1,0 +1,458 @@
+@import 'tailwindcss';
+
+@layer theme {
+  :root {
+    /* Base sizing */
+    --root-font-size: clamp(15px, 1.5vw, 17px);
+    --root-line-height: 1.5;
+    /* Fluid typography scale */
+    --font-sm: clamp(0.875rem, 0.8rem + 0.2vw, 0.95rem);
+    --font-base: clamp(1rem, 0.9rem + 0.3vw, 1.125rem);
+    --font-lg: clamp(1.125rem, 1rem + 0.5vw, 1.25rem);
+    --font-xl: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+    --font-2xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+    --font-3xl: clamp(1.875rem, 1.5rem + 1.5vw, 2.5rem);
+    --font-4xl: clamp(2.25rem, 1.8rem + 2vw, 3rem);
+
+    /* Focus styles */
+    --focus-ring: 3px;
+    --focus-offset: 3px;
+    --focus-color: oklch(60% 0.2 250); /* modern accessible blue */
+    --color-primary: oklch(60% 0.2 250); /* Vibrant blue */
+    --color-secondary: oklch(70% 0.15 340); /* Magenta pink */
+    --color-accent: oklch(80% 0.2 120); /* Fresh green */
+    --color-neutral: oklch(95% 0.02 250); /* Soft gray */
+    --color-dark: oklch(20% 0.03 250); /* Deep slate */
+    --color-warning: oklch(85% 0.15 80); /* Warm yellow */
+    --color-danger: oklch(65% 0.2 30); /* Modern red */
+    --color-success: oklch(65% 0.18 140); /* Accessible green */
+  }
+}
+
+@layer base {
+  html {
+    box-sizing: border-box;
+    -webkit-text-size-adjust: 100%; /* preserve text sizing on iOS */
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -ms-overflow-style: scrollbar;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
+      Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
+    font-size: var(--root-font-size);
+    line-height: var(--root-line-height);
+    height: 100%;
+    color-scheme: light dark;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
+
+  /* 2. Remove default spacing for common elements */
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  figure,
+  blockquote,
+  dl,
+  dd {
+    margin: 0;
+  }
+
+  ul[role='list'],
+  ol[role='list'],
+  ul,
+  ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* 3. Root body sensible defaults */
+  body {
+    position: relative;
+    min-height: 100vh;
+
+    /* Base minimal gradient */
+    background: linear-gradient(
+      to bottom right,
+      var(--color-neutral) 0%,
+      var(--color-dark) 100%
+    );
+    color: var(--color-dark);
+  }
+
+  /* Accent overlay using ::before */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      circle at top left,
+      color-mix(in oklch, var(--color-accent) 10%, transparent),
+      transparent 70%
+    );
+  }
+
+  /* Dark mode adjustment */
+  @media (prefers-color-scheme: dark) {
+    body {
+      background: linear-gradient(
+        to bottom right,
+        var(--color-dark) 0%,
+        oklch(25% 0.05 250) 100%
+      );
+      color: var(--color-neutral);
+    }
+
+    body::before {
+      background: radial-gradient(
+        circle at bottom right,
+        color-mix(in oklch, var(--color-primary) 8%, transparent),
+        transparent 70%
+      );
+    }
+  }
+
+  /* 4. Images and media */
+  img,
+  picture,
+  svg,
+  video,
+  iframe {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* 5. Links */
+  a {
+    color: inherit;
+    text-decoration: none;
+    text-decoration-skip-ink: auto;
+    background-color: transparent;
+  }
+
+  /* 6. Forms — inherit fonts, remove inconsistent browser styles */
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit; /* avoid unexpected font jumps */
+    color: inherit;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0;
+    vertical-align: middle;
+  }
+
+  /* Keep native focus styles accessible: prefer focus-visible */
+  :focus {
+    outline: none;
+  }
+  :focus-visible {
+    outline: var(--focus-ring) solid var(--focus-color);
+    outline-offset: var(--focus-offset);
+  }
+
+  /* Buttons and clickable elements */
+  button {
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+
+  /* Restore disabled cursor where appropriate */
+  button:disabled,
+  [disabled] {
+    cursor: default;
+    opacity: 0.6;
+  }
+
+  /* 7. Tables */
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  /* 8. Preserve form controls sizing and behavior on iOS */
+  textarea {
+    resize: vertical;
+  }
+
+  /* 9. Accessibility helpers */
+  .sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  /* 10. Motion reduction */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* 11. Small niceties */
+  abbr[title] {
+    text-decoration: underline dotted;
+  }
+  kbd {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono',
+      monospace;
+    font-size: 0.9em;
+    padding: 0.1em 0.3em;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.05);
+  }
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono',
+      monospace;
+    font-size: 0.95em;
+  }
+
+  /* 12. Utility: make responsive images easy in content blocks */
+  .responsive-media {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+@layer components {
+  /* Card */
+  .card {
+    @apply rounded-lg bg-white dark:bg-zinc-900 shadow p-4;
+  }
+
+  /* Buttons - base */
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+
+  /* Variants */
+  .btn-primary {
+    @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500;
+  }
+
+  .btn-secondary {
+    @apply bg-zinc-200 text-zinc-900 hover:bg-zinc-300 focus:ring-zinc-400 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700;
+  }
+
+  .btn-outline {
+    @apply border border-zinc-300 text-zinc-900 hover:bg-zinc-100 dark:border-zinc-600 dark:text-white dark:hover:bg-zinc-800;
+  }
+
+  .btn-danger {
+    @apply bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
+  }
+
+  .btn-success {
+    @apply bg-green-600 text-white hover:bg-green-700 focus:ring-green-500;
+  }
+
+  .btn-link {
+    @apply px-0 text-blue-600 hover:underline dark:text-blue-400;
+  }
+
+  /* Input */
+  .input {
+    @apply w-full rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500;
+  }
+}
+
+@layer utilities {
+  .text-primary {
+    color: var(--color-primary);
+  }
+  .text-secondary {
+    color: var(--color-secondary);
+  }
+  .text-accent {
+    color: var(--color-accent);
+  }
+  .text-neutral {
+    color: var(--color-neutral);
+  }
+  .text-dark {
+    color: var(--color-dark);
+  }
+  .text-warning {
+    color: var(--color-warning);
+  }
+  .text-danger {
+    color: var(--color-danger);
+  }
+  .text-success {
+    color: var(--color-success);
+  }
+  /* bg utilities */
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+  .bg-secondary {
+    background-color: var(--color-secondary);
+  }
+  .bg-accent {
+    background-color: var(--color-accent);
+  }
+  .bg-neutral {
+    background-color: var(--color-neutral);
+  }
+  .bg-dark {
+    background-color: var(--color-dark);
+  }
+  .bg-warning {
+    background-color: var(--color-warning);
+  }
+  .bg-danger {
+    background-color: var(--color-danger);
+  }
+  .bg-success {
+    background-color: var(--color-success);
+  }
+  /* 🔳 Font size utilities (fluid) */
+  .text-sm-fluid {
+    font-size: var(--font-sm);
+  }
+  .text-base-fluid {
+    font-size: var(--font-base);
+  }
+  .text-lg-fluid {
+    font-size: var(--font-lg);
+  }
+  .text-xl-fluid {
+    font-size: var(--font-xl);
+  }
+  .text-2xl-fluid {
+    font-size: var(--font-2xl);
+  }
+  .text-3xl-fluid {
+    font-size: var(--font-3xl);
+  }
+  .text-4xl-fluid {
+    font-size: var(--font-4xl);
+  }
+
+  /* 🔳 Font weight utilities */
+  .font-light {
+    font-weight: 300;
+  }
+  .font-normal {
+    font-weight: 400;
+  }
+  .font-medium {
+    font-weight: 500;
+  }
+  .font-semibold {
+    font-weight: 600;
+  }
+  .font-bold {
+    font-weight: 700;
+  }
+  .font-black {
+    font-weight: 900;
+  }
+
+  /* 🔳 Letter spacing */
+  .tracking-tight {
+    letter-spacing: -0.02em;
+  }
+  .tracking-normal {
+    letter-spacing: 0;
+  }
+  .tracking-wide {
+    letter-spacing: 0.05em;
+  }
+
+  /* 🔳 Line height */
+  .leading-tight {
+    line-height: 1.2;
+  }
+  .leading-normal {
+    line-height: 1.5;
+  }
+  .leading-relaxed {
+    line-height: 1.75;
+  }
+
+  .wrapper {
+    @apply max-w-5xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  .grid-2 {
+    @apply grid grid-cols-1 sm:grid-cols-2 gap-6;
+  }
+  .grid-3 {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6;
+  }
+  .grid-4 {
+    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6;
+  }
+
+  /* 🔳 Auto-fit responsive (fluid cards) */
+  .grid-auto {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1.5rem;
+  }
+
+  /* 🔳 Dashboard layout (sidebar + main) */
+  .grid-dashboard {
+    @apply grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6;
+  }
+
+  /* 🔳 Content + aside */
+  .grid-aside {
+    @apply grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8;
+  }
+
+  /* 🔳 Masonry-like (staggered heights) */
+  .grid-masonry {
+    column-count: 1;
+    column-gap: 1rem;
+  }
+  @media (min-width: 640px) {
+    .grid-masonry {
+      column-count: 2;
+    }
+  }
+  @media (min-width: 1024px) {
+    .grid-masonry {
+      column-count: 3;
+    }
+  }
+  .grid-masonry > * {
+    break-inside: avoid;
+    margin-bottom: 1rem;
+  }
+
+  /* 🔳 Centered grid (like cards or logos) */
+  .grid-center {
+    @apply grid place-items-center gap-6;
+  }
+}
