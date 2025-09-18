@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import Modal from '@/components/Modal';
-import Star from '@/components/Star';
+import Modal from '@/components/ui/Modal';
+import Star from '@/components/ui/Star';
 
 export default function Rating({ heading }: { heading: string }) {
   const stars = [1, 2, 3, 4, 5];
