@@ -213,7 +213,9 @@
 
   /* Base button */
   .btn {
-    @apply px-4 py-2 rounded-lg font-medium shadow-sm
+    font-size: var(--font-base);
+
+    @apply px-4 block py-2 rounded-lg shadow-sm
          transition-all duration-200
          focus:outline-none focus:ring-2;
   }
