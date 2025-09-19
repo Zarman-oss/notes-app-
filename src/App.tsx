@@ -3,8 +3,10 @@ import { LucideNotebookPen } from 'lucide-react';
 import { motion } from 'framer-motion';
 import './App.css';
 import MotivationalText from '@/components/MotivationalText';
+import { useState } from 'react';
 
 function App() {
+  const [notes, setNotes] = useState([]);
   return (
     <div className='wrapper mt-12'>
       <div className='flex flex-col items-center justify-center gap-4'>
@@ -12,7 +14,7 @@ function App() {
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
-          className='flex items-center gap-2 justify-center w-full'
+          className='flex items-center gap-2 justify-center'
         >
           <LucideNotebookPen
             width={42}
@@ -41,7 +43,8 @@ function App() {
           <MotivationalText />
         </motion.div>
 
-        <NoteForm />
+        {/* NoteForm Component */}
+        <NoteForm notes={notes} setNotes={setNotes} />
       </div>
     </div>
   );

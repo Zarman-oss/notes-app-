@@ -1,3 +1,50 @@
+body {
+  /* Base minimal gradient */
+  background: linear-gradient(
+    to bottom left,
+    var(--color-neutral) 0%,
+    var(--color-dark) 100%
+  );
+  color: var(--color-dark);
+}
+
+/* Accent overlay using ::before */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at top left,
+    color-mix(in oklch, var(--color-accent) 10%, transparent),
+    transparent 70%
+  );
+}
+
+/* Dark mode adjustment */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(
+      to bottom right,
+      var(--color-dark) 0%,
+      oklch(25% 0.05 250) 100%
+    );
+    color: var(--color-neutral);
+  }
+
+  body::before {
+    background: radial-gradient(
+      circle at bottom right,
+      color-mix(in oklch, var(--color-primary) 8%, transparent),
+      transparent 70%
+    );
+  }
+}
+
+textarea.input {
+  @apply min-h-[100px] resize-y;
+}
+
 @keyframes fade-in-out {
   0%,
   100% {

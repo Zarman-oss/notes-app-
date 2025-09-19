@@ -6,7 +6,7 @@ type ToastData = {
   type: 'success' | 'error' | 'warning' | 'info';
 } | null;
 
-export default function NoteForm() {
+export default function NoteForm({ notes, setNotes }) {
   const [formData, setFormData] = useState({
     title: '',
     category: '',
@@ -43,9 +43,15 @@ export default function NoteForm() {
       return;
     }
 
-    console.log({
-      title: formData.title,
-      priority: formData.priority,
+    const newNote = { id: Date.now(), ...formData };
+
+    setNotes([newNote, ...notes]);
+
+    setFormData({
+      title: '',
+      category: '',
+      priority: '',
+      description: '',
     });
 
     setToast({ message: 'Note saved successfully!', type: 'success' });
@@ -53,7 +59,7 @@ export default function NoteForm() {
   };
 
   return (
-    <div className='relative w-full'>
+    <div className='input-wrapper relative '>
       <form
         onSubmit={handleSubmit}
         className='wrapper mt-8 p-6 rounded-xl border border-zinc-200
@@ -136,7 +142,7 @@ export default function NoteForm() {
           ></textarea>
         </div>
 
-        <button type='submit' className='btn btn-primary w-full'>
+        <button type='submit' className='btn btn-indigo-purple-pink w-full'>
           Save Note
         </button>
       </form>

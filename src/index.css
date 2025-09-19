@@ -17,6 +17,7 @@
     /* Focus styles */
     --focus-ring: 3px;
     --focus-offset: 3px;
+    /* colors */
     --focus-color: oklch(60% 0.2 250); /* modern accessible blue */
     --color-primary: oklch(60% 0.2 250); /* Vibrant blue */
     --color-secondary: oklch(70% 0.15 340); /* Magenta pink */
@@ -26,22 +27,20 @@
     --color-warning: oklch(85% 0.15 80); /* Warm yellow */
     --color-danger: oklch(65% 0.2 30); /* Modern red */
     --color-success: oklch(65% 0.18 140); /* Accessible green */
+    --color-indigo: oklch(55% 0.22 272); /* Indigo 500 */
+    --color-purple: oklch(55% 0.24 300); /* Purple 500 */
+    --color-pink: oklch(70% 0.25 350); /* Pink 500 */
   }
 }
 
 @layer base {
   html {
     box-sizing: border-box;
-    -webkit-text-size-adjust: 100%; /* preserve text sizing on iOS */
+    -webkit-text-size-adjust: 100%; /* this reset preserve the fonts on IOS 🤷🏿‍♂️ */
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     -ms-overflow-style: scrollbar;
-    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
-      Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
-    font-size: var(--root-font-size);
-    line-height: var(--root-line-height);
-    height: 100%;
-    color-scheme: light dark;
+    min-height: 100%;
   }
 
   *,
@@ -77,49 +76,11 @@
 
   /* 3. Root body sensible defaults */
   body {
-    position: relative;
-    min-height: 100vh;
-
-    /* Base minimal gradient */
-    background: linear-gradient(
-      to bottom right,
-      var(--color-neutral) 0%,
-      var(--color-dark) 100%
-    );
-    color: var(--color-dark);
-  }
-
-  /* Accent overlay using ::before */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    background: radial-gradient(
-      circle at top left,
-      color-mix(in oklch, var(--color-accent) 10%, transparent),
-      transparent 70%
-    );
-  }
-
-  /* Dark mode adjustment */
-  @media (prefers-color-scheme: dark) {
-    body {
-      background: linear-gradient(
-        to bottom right,
-        var(--color-dark) 0%,
-        oklch(25% 0.05 250) 100%
-      );
-      color: var(--color-neutral);
-    }
-
-    body::before {
-      background: radial-gradient(
-        circle at bottom right,
-        color-mix(in oklch, var(--color-primary) 8%, transparent),
-        transparent 70%
-      );
-    }
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
+      Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
+    font-size: var(--root-font-size);
+    line-height: var(--root-line-height);
+    color-scheme: light dark;
   }
 
   /* 4. Images and media */
@@ -250,39 +211,105 @@
     @apply rounded-lg bg-white dark:bg-zinc-900 shadow p-4;
   }
 
-  /* Buttons - base */
+  /* Base button */
   .btn {
-    @apply inline-flex items-center justify-center px-4 py-2 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2;
+    @apply px-4 py-2 rounded-lg font-medium shadow-sm
+         transition-all duration-200
+         focus:outline-none focus:ring-2;
   }
 
-  /* Variants */
+  /* --- Solid Variants --- */
   .btn-primary {
-    @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500;
+    background-color: var(--color-primary);
+    color: white;
+  }
+  .btn-primary:hover {
+    background-color: color-mix(in oklch, var(--color-primary), black 15%);
+  }
+  .btn-primary:focus {
+    --tw-ring-color: var(--color-primary);
   }
 
   .btn-secondary {
-    @apply bg-zinc-200 text-zinc-900 hover:bg-zinc-300 focus:ring-zinc-400 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700;
+    background-color: var(--color-secondary);
+    color: white;
+  }
+  .btn-secondary:hover {
+    background-color: color-mix(in oklch, var(--color-secondary), black 15%);
+  }
+  .btn-secondary:focus {
+    --tw-ring-color: var(--color-secondary);
   }
 
-  .btn-outline {
-    @apply border border-zinc-300 text-zinc-900 hover:bg-zinc-100 dark:border-zinc-600 dark:text-white dark:hover:bg-zinc-800;
+  .btn-accent {
+    background-color: var(--color-accent);
+    color: var(--color-dark);
+  }
+  .btn-accent:hover {
+    background-color: color-mix(in oklch, var(--color-accent), black 10%);
+  }
+  .btn-accent:focus {
+    --tw-ring-color: var(--color-accent);
+  }
+
+  .btn-warning {
+    background-color: var(--color-warning);
+    color: var(--color-dark);
+  }
+  .btn-warning:hover {
+    background-color: color-mix(in oklch, var(--color-warning), black 10%);
+  }
+  .btn-warning:focus {
+    --tw-ring-color: var(--color-warning);
   }
 
   .btn-danger {
-    @apply bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
+    background-color: var(--color-danger);
+    color: white;
+  }
+  .btn-danger:hover {
+    background-color: color-mix(in oklch, var(--color-danger), black 15%);
+  }
+  .btn-danger:focus {
+    --tw-ring-color: var(--color-danger);
   }
 
   .btn-success {
-    @apply bg-green-600 text-white hover:bg-green-700 focus:ring-green-500;
+    background-color: var(--color-success);
+    color: white;
+  }
+  .btn-success:hover {
+    background-color: color-mix(in oklch, var(--color-success), black 15%);
+  }
+  .btn-success:focus {
+    --tw-ring-color: var(--color-success);
   }
 
-  .btn-link {
-    @apply px-0 text-blue-600 hover:underline dark:text-blue-400;
+  /* --- Gradient Variants --- */
+  .btn-indigo-purple-pink {
+    background: linear-gradient(
+      to right,
+      var(--color-indigo),
+      var(--color-purple),
+      var(--color-pink)
+    );
+    color: white;
+  }
+  .btn-indigo-purple-pink:hover {
+    filter: brightness(0.9);
+  }
+  .btn-indigo-purple-pink:focus {
+    --tw-ring-color: var(--color-purple);
   }
 
-  /* Input */
   .input {
-    @apply w-full rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500;
+    @apply w-full rounded-lg border border-zinc-300 dark:border-zinc-700
+         bg-white dark:bg-zinc-900
+         px-3 py-2 text-sm
+         shadow-sm
+         placeholder-zinc-400 dark:placeholder-zinc-500
+         focus:outline-none focus:ring-2 focus:ring-[--color-primary] focus:border-[--color-primary]
+         transition-colors duration-200;
   }
 }
 
@@ -402,7 +429,10 @@
   }
 
   .wrapper {
-    @apply max-w-5xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  .input-wrapper {
+    @apply w-full max-w-2xl mx-auto px-4 sm:px-6 lg:px-8;
   }
   .grid-2 {
     @apply grid grid-cols-1 sm:grid-cols-2 gap-6;
