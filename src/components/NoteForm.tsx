@@ -1,9 +1,9 @@
+import NoteList from '@/components/NoteList';
 import IndigoBtn from '@/components/ui/IndigoBtn';
 import SecondaryBtn from '@/components/ui/SecondaryBtn';
 import Toast from '@/components/ui/Toast';
 import { Plus, ThumbsUp, X } from 'lucide-react';
 import { useState } from 'react';
-import NoteList from '@/components/NoteList';
 
 type ToastData = {
   message: string;
