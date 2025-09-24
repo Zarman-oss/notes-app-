@@ -3,7 +3,7 @@ import IndigoBtn from '@/components/ui/IndigoBtn';
 import SecondaryBtn from '@/components/ui/SecondaryBtn';
 import Toast from '@/components/ui/Toast';
 import { Plus, ThumbsUp, X } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 type ToastData = {
   message: string;
@@ -21,7 +21,14 @@ export default function NoteForm() {
   const [toast, setToast] = useState<ToastData>(null);
   const [idCounter, setIdCounter] = useState(1);
   const [showForm, setShowForm] = useState(false);
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState(() => {
+    const notes = JSON.parse(localStorage.getItem('notes'));
+    return notes || [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('notes', JSON.stringify(notes));
+  }, [notes]);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -68,6 +75,11 @@ export default function NoteForm() {
     setShowForm(false);
   };
 
+  const handleDelete = (id: number | string) => {
+    setNotes(notes.filter((note) => note.id !== id));
+    setToast({ message: 'Note deleted', type: 'info' });
+  };
+
   return (
     <div className='input-wrapper relative'>
       {/* Show Add Note button if no form */}
@@ -87,7 +99,7 @@ export default function NoteForm() {
               onClick={() => setShowForm(true)}
             />
           </div>
-          <NoteList notes={notes} />
+          <NoteList notes={notes} onDelete={handleDelete} />
         </div>
       )}
 

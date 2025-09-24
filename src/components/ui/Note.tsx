@@ -1,6 +1,13 @@
 import { LucideTrash } from 'lucide-react';
+import type { Note as NoteType } from '@/types/Note';
 
-export default function Note({ notes }) {
+export default function Note({
+  notes,
+  onDelete,
+}: {
+  notes: NoteType[];
+  onDelete: (id: number | string) => void;
+}) {
   return (
     <>
       {notes.map((note) => (
@@ -28,11 +35,10 @@ export default function Note({ notes }) {
               >
                 {note.priority}
               </span>
-              <button>
-                <LucideTrash
-                  stroke='red'
-                  className='stroke-red-500 hover:scale-110 transition-transform cursor-pointer'
-                />
+
+              {/* ✅ Fix the onClick type issue */}
+              <button onClick={() => onDelete(note.id)}>
+                <LucideTrash className='stroke-red-500 hover:scale-110 transition-transform cursor-pointer' />
               </button>
             </div>
           </div>

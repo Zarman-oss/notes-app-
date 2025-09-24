@@ -1,14 +1,15 @@
-type Note = {
-  id: number | string;
-  priority: 'High' | 'Medium' | 'Low';
-  description: string;
-};
-
 import Note from '@/components/ui/Note';
-export default function NoteList({ notes }: { notes: Note[] }) {
+import type { Note as NoteType } from '@/types/Note';
+export default function NoteList({
+  notes,
+  onDelete,
+}: {
+  notes: NoteType[];
+  onDelete: (id: number | string) => void;
+}) {
   return (
-    <div className='mt-6 grid-auto'>
-      <Note notes={notes} />
+    <div className='mt-6 grid-3'>
+      <Note notes={notes} onDelete={onDelete} />
     </div>
   );
 }
